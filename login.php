@@ -21,7 +21,7 @@
             <input type="submit" name="submitForm" value="Login" id="log"/>
             
             <!-- Liens pour redirection -->
-            <a href="myAccount.php">My account</a>
+            <a href="profile.php">My account</a>
             <a href="register.php">Register</a>
         </form>
     </section>
