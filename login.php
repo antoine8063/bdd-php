@@ -1,6 +1,13 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Mémoire</title>
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+
 <body>
     <section>
-        <h1>LOGIN</h1>
+        <h1>CONNEXION</h1>
         
         <!-- Affichage des messages d'erreur ou de succès -->
         <?php
@@ -16,13 +23,21 @@
         
         <!-- Formulaire de connexion -->
         <form method="POST" action="utils/userConnexion.php">
-            <input type="email" name="email" placeholder="Email" required id="em"/>
-            <input type="password" name="password" placeholder="Password" required id="pas"/>
-            <input type="submit" name="submitForm" value="Login" id="log"/>
-            
+            <section class = formulaire>
+                <section class = container>
+                    <input type="email" name="email" placeholder="Email" required id="em"/>
+                </section>
+                <section class = container>
+                    <input type="password" name="password" placeholder="Password" required id="pas"/>
+                </section>
+                <section class = container>
+                    <input type="submit" name="submitForm" value="Login" id="log"/>
+                    </section>
+                    <section class = container>
+            </section>
+
             <!-- Liens pour redirection -->
-            <a href="myAccount.php">My account</a>
-            <a href="register.php">Register</a>
+            <input type=button onclick=window.location.href='register.php'; value="pas de compte ?" />
         </form>
     </section>
     
