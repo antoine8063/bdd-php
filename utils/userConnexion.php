@@ -32,7 +32,7 @@ if (isset($_POST['submitForm'])) {
                 $_SESSION['user_id'] = $user['id'];
 
                 // Redirection vers la page d'accueil ou une autre page sécurisée
-                header("Location: ../index.php"); // Redirige l'utilisateur vers la page d'accueil
+                header("Location: ../profile.php"); // Redirige l'utilisateur vers la page d'accueil
                 exit();
             } else {
                 // Mot de passe incorrect
