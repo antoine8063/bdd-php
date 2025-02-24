@@ -1,24 +1,112 @@
-h1{
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #000000, #6a0572, #4b4b4b);
     display: flex;
+    justify-content: center;
     align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+div {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    width: 400px;
+    position: relative;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
-.formulaire{
+h1 {
+    color: #d4d4d4;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* Centrer les sections dans le div */
+section {
+    width: 100%;
+    margin: 10px 0; /* Ajout d'un peu d'espace entre les sections */
     display: flex;
-    align-items: center;
-    flex-direction: column;
     justify-content: center;
-    max-width: 400px;
-    width: 90%;
-    margin: 20px auto;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Ombre pour effet de profondeur */
-  }
+    align-items: center;
+}
 
+input[type="email"],
+input[type="password"] {
+    width: 90%; /* Utiliser 90% pour ne pas toucher les bords */
+    padding: 20px;
+    border: 1px solid #6a0572;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #2a2a2a;
+    color: #ffffff;
+    outline: none;
+    text-align: center;
+    transition: 0.3s;
+}
 
-.container{
-margin: 8px ;
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #a020f0;
+    box-shadow: 0 0 8px rgba(160, 32, 240, 0.8);
+}
+
+/* Bouton de soumission */
+input[type="submit"] {
+    width: 95%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #a020f0;
+    color: white;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+    background: #8200c9;
+    box-shadow: 0 0 10px rgba(160, 32, 240, 0.8);
+}
+
+/* Bouton d'inscription */
+input[type="button"] {
+    width: 95%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #d4d4d4;
+    text-decoration: none;
+    margin-top: 10px;
+    background: none;
+}
+
+input[type="button"]:hover {
+    color: #a020f0;
+    text-decoration: underline;
+}
+
+/* Messages d'erreur et de succès */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.success-message {
+    color: green;
+    font-size: 14px;
+    margin-bottom: 10px;
 }

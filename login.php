@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <section>
+    <div>
         <h1>CONNEXION</h1>
         
         <!-- Affichage des messages d'erreur ou de succès -->
@@ -23,7 +23,6 @@
         
         <!-- Formulaire de connexion -->
         <form method="POST" action="utils/userConnexion.php">
-            <section class = formulaire>
                 <section class = container>
                     <input type="email" name="email" placeholder="Email" required id="em"/>
                 </section>
@@ -33,13 +32,11 @@
                 <section class = container>
                     <input type="submit" name="submitForm" value="Login" id="log"/>
                     </section>
-                    <section class = container>
-            </section>
 
             <!-- Liens pour redirection -->
             <input type=button onclick=window.location.href='register.php'; value="pas de compte ?" />
         </form>
-    </section>
+    </div>
     
 </body>
 </html>
