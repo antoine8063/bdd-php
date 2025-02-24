@@ -1,58 +1,30 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>connexion</title>
-</head>
-<header>
-</header>
-
 <body>
-    <h1>Connexion</h1>
-    <form method="post">    
-            <section class="formulaire">
-        <div class="container"> 
-            <input type="email"
-            id="email"
-            name="email"
-            placeholder="Email" />
-        </div>
-        <div class=container>
-            <input type="password"
-            id="mdp"
-            name="mdp"
-            placeholder="Mot de passe"/>
-
-            
-        </div>
-        <div class="container">
-            <button type="submit" name="connexion">se connecter</button>
-        </div>
-
-        <section class="insciption"> 
-            <a href="register.php" >toujours pas connecté ?</a>
-        </section>
-        </form>
-
-
+    <section>
+        <h1>LOGIN</h1>
+        
+        <!-- Affichage des messages d'erreur ou de succès -->
         <?php
-        if (isset($_POST['connexion'])) {
-        $email = htmlspecialchars(trim($_POST['email']));
-        $mdp = htmlspecialchars($_POST['mdp']);
-        $req = $db->prepare('SELECT id,email,mot_de_passe FROM utilisateur WHERE email = :email');
-        $req->execute(array("email" => $_POST['email']));
-        $data = $req->fetch();
-        if (!empty($data)){
-            if ($data['mot_de_passe'] === $mdp){
-                $_SESSION['user_id'] = $data['id'];
-                header('location:connexion.php');
-                echo "c'est bon vous êtes connecté";
-            }else{
-                echo "mauvais mot de passe";
-            }
-        }else{
-            echo "le compte n'existe pas";
+        session_start();
+        if (isset($_SESSION['error'])) {
+            echo '<p class="error-message">' . htmlspecialchars($_SESSION['error']) . '</p>';
+            unset($_SESSION['error']);
+        } elseif (isset($_SESSION['messagelogin'])) {
+            echo '<p class="success-message">' . htmlspecialchars($_SESSION['messagelogin']) . '</p>';
+            unset($_SESSION['messagelogin']);
         }
-
-    }
-    ?>
+        ?>
+        
+        <!-- Formulaire de connexion -->
+        <form method="POST" action="utils/userConnexion.php">
+            <input type="email" name="email" placeholder="Email" required id="em"/>
+            <input type="password" name="password" placeholder="Password" required id="pas"/>
+            <input type="submit" name="submitForm" value="Login" id="log"/>
+            
+            <!-- Liens pour redirection -->
+            <a href="myAccount.php">My account</a>
+            <a href="register.php">Register</a>
+        </form>
+    </section>
+    
 </body>
+</html>
