@@ -1,76 +1,174 @@
+/* Style général */
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
-    margin-top: 10%;
-}
-
-
-
-/* Section Intro */
-.intro {
-    margin: 50px 0;
-}
-
-.how-it-works {
-    background-color: #6c5ce7;
-    border: none;
-    padding: 12px 25px;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.how-it-works:hover {
-    background-color: #574b90;
-    transform: scale(1.05);
-}
-
-/* Info Section */
-.info-section {
+    background-color: #f1f1f1;
     display: flex;
     justify-content: center;
-    gap: 30px;
-    margin: 40px 20px;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: #333;
 }
 
-.info-box {
-    width: 320px;
-    height: 180px;
+/* Titre principal */
+h1 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+/* Style du tableau */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
 }
 
-.info-box:hover {
-    transform: translateY(-5px);
-}
-
-/* Stats Section */
-.stats {
-    display: flex;
-    justify-content: space-around;
+/* En-tête du tableau */
+th {
     background-color: #6c5ce7;
     color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 40px;
-    font-style: italic;
-    font-weight: bold;
+    padding: 15px;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
-.stat {
-    font-size: 18px;
+/* Cellules du tableau */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
 }
 
-.stat-value {
-    font-size: 22px;
+/* Ligne de survol */
+tr:hover {
+    background-color: #f7f7f7;
+}
+
+/* Actions (boutons de suppression) */
+a {
+    text-decoration: none;
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
     font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #c0392b;
+}
+
+/* Bouton "Ajouter un pari" */
+#ajouterPariBtn {
+    margin: 1rem auto;
     display: block;
-    margin-top: 5px;
+    padding: 0.5rem 1rem;
+    background-color: #6c63ff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Fenêtre modale pour ajouter un pari */
+#betFormModal {
+    display: none; /* caché par défaut */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Conteneur de la modale */
+#betFormContainer {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 4px;
+    width: 350px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Formulaire d'ajout de pari */
+#betForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#betForm label {
+    margin-top: 0.5rem;
+    text-align: left;
+}
+
+#betForm input,
+#betForm select {
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Bouton de fermeture de la modale */
+#closeModal {
+    margin-top: 1rem;
+    background-color: #999;
+    color: #fff;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#closeModal:hover {
+    background-color: #666;
+}
+
+/* Style des alertes de succès ou d'erreur */
+.alert {
+    padding: 1rem;
+    margin: 20px 0;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.error {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Responsivité : Pour les écrans plus petits */
+@media (max-width: 768px) {
+    table {
+        width: 95%;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+    td, th {
+        font-size: 12px;
+        padding: 10px;
+    }
+    #betFormContainer {
+        width: 80%;
+    }
+    #ajouterPariBtn {
+        width: 100%;
+    }
 }
