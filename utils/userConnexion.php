@@ -14,7 +14,7 @@ if (isset($_POST['submitForm'])) {
 
     try {
         // Vérification si l'email existe dans la base de données (table 'users')
-        $query = "SELECT id, username, password FROM users WHERE email = :email"; // Table 'users' pour l'email
+        $query = "SELECT id, username, password, role FROM users WHERE email = :email"; // Ajout du champ `role`
         $stmt = $conn->prepare($query);
         $stmt->execute(['email' => $email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,16 +23,18 @@ if (isset($_POST['submitForm'])) {
         if ($user) {
             // Vérification du mot de passe avec password_verify
             if (password_verify($password, $user['password'])) {
-                // Mettre à jour la date de dernière connexion (si nécessaire)
-                // Nous pouvons éventuellement ajouter une colonne `last_login_date` dans la table `users` pour garder une trace de la dernière connexion de l'utilisateur
-
                 // Enregistrement des informations de l'utilisateur dans la session
                 $_SESSION['messagelogin'] = "Connexion réussie ! Bienvenue " . $user['username'];
                 $_SESSION['user_username'] = $user['username'];
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_role'] = $user['role'];  // Enregistrer le rôle de l'utilisateur
 
-                // Redirection vers la page d'accueil ou une autre page sécurisée
-                header("Location: ../profile.php"); // Redirige l'utilisateur vers la page d'accueil
+                // Redirection vers la page admin si l'utilisateur est un admin
+                if ($user['role'] == 'admin') {
+                    header("Location: ../admin.php");  // Redirection vers le panel admin
+                } else {
+                    header("Location: ../profile.php"); // Redirection vers la page utilisateur
+                }
                 exit();
             } else {
                 // Mot de passe incorrect
