@@ -152,6 +152,8 @@ if (isset($_POST['update_password'])) {
     <title>Mon Profil - BetFactory</title>
     <link rel="stylesheet" href="assets/css/profile.css">
 </head>
+
+<?php include 'partials/header.php'; ?>
 <body>
     <div class="profile-container">
         <h1>PROFIL</h1>
