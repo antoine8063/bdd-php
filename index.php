@@ -40,8 +40,8 @@ try {
     <nav>
         <div class="logo">BETFACTORY</div>
         <ul class="nav-links">
-            <li><a href="#">ACCUEIL</a></li>
-            <li><a href="#">COMPTE</a></li>
+            <li><a href="index.php">ACCUEIL</a></li>
+            <li><a href="profile.php">COMPTE</a></li>
             <li><a href="#">À PROPOS</a></li>
         </ul>
         <a href="#" class="bet-now">BET NOW</a>

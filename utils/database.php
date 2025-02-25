@@ -7,7 +7,7 @@ class Database {
     private $conn;
     private $host = 'localhost'; // Nom d'hôte (localhost si tu es en local)
     private $username = 'root'; // Nom d'utilisateur MySQL
-    private $password = ''; // Mot de passe MySQL (vide par défaut en local)
+    private $password = 'root'; // Mot de passe MySQL (vide par défaut en local)
     private $dbname = 'betfactory'; // Nom de ta base de données
 
     // Constructeur privé pour éviter la création d'une nouvelle instance directement

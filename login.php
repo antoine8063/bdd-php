@@ -8,21 +8,18 @@
 <body>
     <div>
         <h1>CONNEXION</h1>
-        
-        <!-- Affichage des messages d'erreur ou de succès -->
-        <?php
-        session_start();
-        if (isset($_SESSION['error'])) {
-            echo '<p class="error-message">' . htmlspecialchars($_SESSION['error']) . '</p>';
-            unset($_SESSION['error']);
-        } elseif (isset($_SESSION['messagelogin'])) {
-            echo '<p class="success-message">' . htmlspecialchars($_SESSION['messagelogin']) . '</p>';
-            unset($_SESSION['messagelogin']);
-        }
-        ?>
-        
         <!-- Formulaire de connexion -->
         <form method="POST" action="utils/userConnexion.php">
+            <?php
+                session_start();
+                if (isset($_SESSION['error'])) {
+                    echo '<p class="error-message">' . htmlspecialchars($_SESSION['error']) . '</p>';
+                    unset($_SESSION['error']);
+                } elseif (isset($_SESSION['messagelogin'])) {
+                    echo '<p class="success-message">' . htmlspecialchars($_SESSION['messagelogin']) . '</p>';
+                    unset($_SESSION['messagelogin']);
+                }
+                ?>
                 <section class = container>
                     <input type="email" name="email" placeholder="Email" required id="em"/>
                 </section>
@@ -32,6 +29,7 @@
                 <section class = container>
                     <input type="submit" name="submitForm" value="Login" id="log"/>
                     </section>
+                
 
             <!-- Liens pour redirection -->
             <input type=button onclick=window.location.href='register.php'; value="pas de compte ?" />
