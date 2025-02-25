@@ -4,9 +4,12 @@
     <title>Jeu de Mémoire</title>
     <link rel="stylesheet" href="assets/css/login.css">
 </head>
-
+<?php
+    include "partials/header.php"
+?>
 <body>
     <div>
+        
         <h1>CONNEXION</h1>
         <!-- Formulaire de connexion -->
         <form method="POST" action="utils/userConnexion.php">
