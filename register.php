@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="assets/css/register.css">
 </head>
 
+<?php
+    include "partials/header.php"
+?>
+
 <body>
 
     <div>
