@@ -61,5 +61,59 @@ class User {
         $stmt->execute([':email' => $email]);
         return $stmt->fetch(PDO::FETCH_ASSOC);  // Retourne les données de l'utilisateur
     }
+
+    // Mettre à jour l'avatar de l'utilisateur
+    public function updateAvatar($userId, $avatarFilename) {
+        try {
+            $query = "UPDATE users SET avatar = :avatar WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                ':avatar' => $avatarFilename,
+                ':id' => $userId
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    // Mettre à jour le pseudo de l'utilisateur
+    public function updateUsername($userId, $newUsername) {
+        try {
+            $query = "UPDATE users SET username = :username WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                ':username' => $newUsername,
+                ':id' => $userId
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    // Récupérer le mot de passe de l'utilisateur par ID
+    public function getPasswordById($userId) {
+        $query = "SELECT password FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([':id' => $userId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['password'];
+    }
+
+    // Mettre à jour le mot de passe de l'utilisateur
+    public function updatePassword($userId, $newPassword) {
+        try {
+            $query = "UPDATE users SET password = :password WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([
+                ':password' => $newPassword,
+                ':id' => $userId
+            ]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
 ?>

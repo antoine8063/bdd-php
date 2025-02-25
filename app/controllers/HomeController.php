@@ -1,6 +1,6 @@
 <?php
 // app/controllers/HomeController.php
-require_once '../models/Stats.php';
+require_once __DIR__ . '/../models/Stats.php';
 
 class HomeController {
     public function index() {

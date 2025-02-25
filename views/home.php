@@ -39,7 +39,7 @@ try {
     <nav>
         <div class="logo">BETFACTORY</div>
         <ul class="nav-links">
-            <li><a href="#">ACCUEIL</a></li>
+            <li><a href="home.php">ACCUEIL</a></li>
             <li><a href="ProfileView.php">COMPTE</a></li>
             <li><a href="#">À PROPOS</a></li>
         </ul>

@@ -1,104 +1,100 @@
 <?php
-// Démarrage de la session
-session_start();
+// Démarrer la session si elle n'est pas déjà démarrée
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Vérification si l'utilisateur est bien connecté et si les données sont présentes
+// Vérification si l'utilisateur est bien connecté
 if (!isset($_SESSION['user_id'])) {
-    echo "L'utilisateur n'est pas connecté ou les informations sont manquantes.";
+    header('Location: index.php?action=home');
     exit();
 }
 
-// Récupération des informations utilisateur
-$user_id = $_SESSION['user_id'];
-
-// Inclure le modèle User
-require_once '../app/models/User.php';
-
+// Inclure le modèle pour récupérer les informations de l'utilisateur
+require_once '/xampp/htdocs/bdd-php/app/models/User.php';
 $userModel = new User();
-$user_info = $userModel->getUserById($user_id);
-
-if (!$user_info) {
-    echo "L'utilisateur n'a pas été trouvé dans la base de données.";
-    exit();
-}
+$user_info = $userModel->getUserById($_SESSION['user_id']);
 ?>
 
-<!-- Ajout du fichier CSS -->
+<!DOCTYPE html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Utilisateur</title>
     <link rel="stylesheet" type="text/css" href="/public/assets/css/profile.css">
 </head>
+<body>
+    <h2>PROFIL</h2>
 
-<!-- Affichage du profil de l'utilisateur -->
-<h2>PROFIL</h2>
+    <!-- Photo de profil -->
+    <div class="profile-picture">
+        <?php
+        $avatar_path = 'public/profile-picture/' . $user_info['avatar'];
+        if (!empty($user_info['avatar']) && file_exists($avatar_path)):
+        ?>
+            <img src="/<?php echo $avatar_path; ?>" alt="Photo de profil">
+        <?php else: ?>
+            <img src="/public/profile-picture/default.png" alt="Photo de profil par défaut">
+        <?php endif; ?>
+    </div>
 
-<!-- Photo de profil -->
-<div class="profile-picture">
-    <?php 
-    // Définir le chemin de l'avatar
-    $avatar_path = 'public/profile-picture/' . $user_info['avatar'];
-    if (file_exists($avatar_path)): 
-    ?>
-        <img src="/<?php echo $avatar_path; ?>" alt="Photo de profil">
-    <?php else: ?>
-        <img src="/public/profile-picture/default.png" alt="Photo de profil par défaut">
+    <!-- Formulaire pour modifier la photo de profil -->
+    <h3>MODIFIER MA PHOTO DE PROFIL</h3>
+    <form action="index.php?action=updateAvatar" method="POST" enctype="multipart/form-data">
+        <input type="file" name="avatar" required />
+        <button type="submit">Mettre à jour la photo</button>
+    </form>
+
+    <!-- Formulaire pour modifier le pseudo -->
+    <h3>MODIFIER MON PSEUDO</h3>
+    <form action="index.php?action=updateUsername" method="POST">
+        <input type="text" name="new_username" value="<?php echo htmlspecialchars($user_info['username']); ?>" required />
+        <button type="submit">Mettre à jour le pseudo</button>
+    </form>
+
+    <!-- Formulaire pour changer le mot de passe -->
+    <h3>CHANGER MON MOT DE PASSE</h3>
+    <form action="index.php?action=updatePassword" method="POST">
+        <label for="current_password">Mot de passe actuel</label>
+        <input type="password" name="current_password" required />
+
+        <label for="new_password">Nouveau mot de passe</label>
+        <input type="password" name="new_password" required />
+
+        <label for="confirm_password">Confirmer le nouveau mot de passe</label>
+        <input type="password" name="confirm_password" required />
+
+        <button type="submit">Mettre à jour le mot de passe</button>
+    </form>
+
+    <!-- Affichage des informations du wallet -->
+    <h3>MON WALLET</h3>
+    <div>
+        <strong>Solde actuel : </strong>
+        <?php echo number_format($user_info['balance'], 2); ?> $
+    </div>
+
+    <!-- Affichage de la variation du solde -->
+    <div class="balance-variation">
+        <?php
+        if (isset($percentage_change) && $percentage_change > 0) {
+            echo '<span class="positive">↑ ' . number_format($percentage_change, 2) . '%</span>';
+        } elseif (isset($percentage_change) && $percentage_change < 0) {
+            echo '<span class="negative">↓ ' . number_format($percentage_change, 2) . '%</span>';
+        } else {
+            echo '<span class="neutral">= 0%</span>';
+        }
+        ?>
+    </div>
+
+    <!-- Messages d'erreur ou de succès -->
+    <?php if (isset($_GET['error'])): ?>
+        <div class="error-message"><?php echo htmlspecialchars($_GET['error']); ?></div>
     <?php endif; ?>
-</div>
 
-<!-- Formulaire pour modifier la photo de profil -->
-<h3>MODIFIER MA PHOTO DE PROFIL</h3>
-<form action="profile.php?action=updateAvatar" method="POST" enctype="multipart/form-data">
-    <input type="file" name="avatar" required />
-    <button type="submit">Mettre à jour la photo</button>
-</form>
-
-<!-- Formulaire pour modifier le pseudo -->
-<h3>MODIFIER MON PSEUDO</h3>
-<form action="profile.php?action=updateUsername" method="POST">
-    <input type="text" name="new_username" value="<?php echo htmlspecialchars($user_info['username']); ?>" required />
-    <button type="submit">Mettre à jour le pseudo</button>
-</form>
-
-<!-- Formulaire pour changer le mot de passe -->
-<h3>CHANGER MON MOT DE PASSE</h3>
-<form action="profile.php?action=updatePassword" method="POST">
-    <label for="current_password">Mot de passe actuel</label>
-    <input type="password" name="current_password" required />
-    
-    <label for="new_password">Nouveau mot de passe</label>
-    <input type="password" name="new_password" required />
-    
-    <label for="confirm_password">Confirmer le nouveau mot de passe</label>
-    <input type="password" name="confirm_password" required />
-    
-    <button type="submit">Mettre à jour le mot de passe</button>
-</form>
-
-<!-- Affichage des informations du wallet -->
-<h3>MON WALLET</h3>
-<div>
-    <strong>Solde actuel : </strong>
-    <?php echo number_format($user_info['balance'], 2); ?> $
-</div>
-
-<!-- Affichage de la variation du solde -->
-<div class="balance-variation">
-    <?php 
-    // Affichage de la variation du solde en pourcentage
-    if (isset($percentage_change) && $percentage_change > 0) {
-        echo '<span class="positive">↑ ' . number_format($percentage_change, 2) . '%</span>';
-    } elseif (isset($percentage_change) && $percentage_change < 0) {
-        echo '<span class="negative">↓ ' . number_format($percentage_change, 2) . '%</span>';
-    } else {
-        echo '<span class="neutral">= 0%</span>';
-    }
-    ?>
-</div>
-
-<!-- Messages d'erreur ou de succès -->
-<?php if (isset($error_message)): ?>
-    <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
-<?php endif; ?>
-
-<?php if (isset($success_message)): ?>
-    <div class="success-message"><?php echo htmlspecialchars($success_message); ?></div>
-<?php endif; ?>
+    <?php if (isset($_GET['success'])): ?>
+        <div class="success-message"><?php echo htmlspecialchars($_GET['success']); ?></div>
+    <?php endif; ?>
+</body>
+</html>

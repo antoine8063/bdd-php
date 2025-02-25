@@ -1,45 +1,103 @@
 <?php
-// Démarrage de la session
-session_start();
+class ProfileController {
+    public function showProfile() {
+        // Vérifier si l'utilisateur est connecté
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: index.php?action=home');
+            exit();
+        }
 
-// Vérification si l'utilisateur est connecté
-if (isset($_SESSION['user_id'])) {
-    // Récupérer l'ID de l'utilisateur
-    $user_id = $_SESSION['user_id'];
+        // Inclure le modèle pour récupérer les informations de l'utilisateur
+        require_once 'app/models/User.php';
+        $userModel = new User();
+        $user_info = $userModel->getUserById($_SESSION['user_id']);
 
-    // Exemple de fonction pour récupérer les informations utilisateur depuis la base de données
-    $user_info = getUserInfo($user_id);
-
-    // Vérifiez si l'utilisateur existe et les informations sont valides
-    if (!$user_info) {
-        echo "L'utilisateur n'a pas été trouvé dans la base de données.";
-        exit();
+        // Inclure la vue du profil
+        require_once 'views/ProfileView.php';
     }
 
-    // Si les données sont valides, afficher la vue
-    require('views/ProfileView.php');
-} else {
-    // Si l'utilisateur n'est pas connecté
-    echo "L'utilisateur n'est pas connecté.";
-    exit();
-}
+    public function updateAvatar() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+                require_once 'app/models/User.php';
+                $userModel = new User();
 
-// Fonction pour récupérer les informations de l'utilisateur depuis la base de données
-function getUserInfo($user_id) {
-    // Connexion à la base de données
-    try {
-        $pdo = new PDO('mysql:host=localhost;dbname=betfactory', 'root', ''); // Remplacez par vos infos de connexion
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        
-        // Préparer la requête
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE id = :user_id');
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        // Récupérer l'utilisateur
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
-        exit();
+                $user_id = $_SESSION['user_id'];
+                $avatar_path = 'public/profile-picture/' . basename($_FILES['avatar']['name']);
+
+                if (move_uploaded_file($_FILES['avatar']['tmp_name'], $avatar_path)) {
+                    $userModel->updateAvatar($user_id, basename($_FILES['avatar']['name']));
+                    header('Location: index.php?action=profile&success=avatar_updated');
+                    exit();
+                } else {
+                    header('Location: index.php?action=profile&error=upload_failed');
+                    exit();
+                }
+            } else {
+                header('Location: index.php?action=profile&error=no_file');
+                exit();
+            }
+        } else {
+            header('Location: index.php?action=profile&error=invalid_request');
+            exit();
+        }
+    }
+
+    public function updateUsername() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once 'app/models/User.php';
+            $userModel = new User();
+
+            $user_id = $_SESSION['user_id'];
+            $new_username = $_POST['new_username'];
+
+            if ($userModel->updateUsername($user_id, $new_username)) {
+                header('Location: index.php?action=profile&success=username_updated');
+                exit();
+            } else {
+                header('Location: index.php?action=profile&error=username_update_failed');
+                exit();
+            }
+        } else {
+            header('Location: index.php?action=profile&error=invalid_request');
+            exit();
+        }
+    }
+
+    public function updatePassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once 'app/models/User.php';
+            $userModel = new User();
+
+            $user_id = $_SESSION['user_id'];
+            $current_password = $_POST['current_password'];
+            $new_password = $_POST['new_password'];
+            $confirm_password = $_POST['confirm_password'];
+
+            $stored_password = $userModel->getPasswordById($user_id);
+
+            if (password_verify($current_password, $stored_password)) {
+                if ($new_password === $confirm_password) {
+                    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                    if ($userModel->updatePassword($user_id, $hashed_password)) {
+                        header('Location: index.php?action=profile&success=password_updated');
+                        exit();
+                    } else {
+                        header('Location: index.php?action=profile&error=password_update_failed');
+                        exit();
+                    }
+                } else {
+                    header('Location: index.php?action=profile&error=passwords_dont_match');
+                    exit();
+                }
+            } else {
+                header('Location: index.php?action=profile&error=invalid_current_password');
+                exit();
+            }
+        } else {
+            header('Location: index.php?action=profile&error=invalid_request');
+            exit();
+        }
     }
 }
+?>
