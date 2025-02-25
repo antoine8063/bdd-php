@@ -31,7 +31,7 @@ h1 {
 
 /* Centrer les sections dans le div */
 section {
-    width: 100%;
+    width: 300px;
     margin: 10px 0; /* Ajout d'un peu d'espace entre les sections */
     display: flex;
     justify-content: center;
