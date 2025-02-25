@@ -1,26 +1,42 @@
 <?php
-// Inclure la connexion à la base de données
-require_once 'utils/database.php';
+// index.php
+session_start();
 
-// Récupérer l'instance de connexion
-$db = Database::getInstance();
-$connexion = $db->getConnection();
+// Inclusion des fichiers nécessaires
+require_once 'controllers/RegisterController.php';
+require_once 'controllers/HomeController.php';  // Ajouter l'inclusion du contrôleur d'accueil
 
-try {
-    // Récupérer le nombre d'utilisateurs inscrits
-    $stmt_users = $connexion->query("SELECT COUNT(*) AS total_users FROM users");
-    $total_users = $stmt_users->fetchColumn();
+// Logique de routage
+if (isset($_GET['action'])) {
+    $action = $_GET['action'];
+} else {
+    $action = 'home'; // Par défaut, on affiche la page d'accueil
+}
 
-    // Récupérer le nombre de comptes créés
-    $stmt_accounts = $connexion->query("SELECT COUNT(*) AS total_accounts FROM users");
-    $total_accounts = $stmt_accounts->fetchColumn();
+// Déterminer quel contrôleur utiliser en fonction de l'action
+switch ($action) {
+    case 'home':
+        // Afficher la page d'accueil
+        $controller = new HomeController();
+        $controller->index();
+        break;
 
-    // Récupérer le nombre total de paris placés
-    $stmt_bets = $connexion->query("SELECT COUNT(*) AS total_bets FROM bets_users");
-    $total_bets = $stmt_bets->fetchColumn();
+    case 'register':
+        // Afficher le formulaire d'inscription
+        $controller = new RegisterController();
+        $controller->showRegisterForm();
+        break;
+    
+    case 'submit_register':
+        // Soumettre le formulaire d'inscription
+        $controller = new RegisterController();
+        $controller->registerUser();
+        break;
 
-} catch (PDOException $e) {
-    error_log("Erreur lors de la récupération des statistiques : " . $e->getMessage());
-    $total_users = $total_accounts = $total_bets = 0; // Valeurs par défaut en cas d'erreur
+    default:
+        // Par défaut, afficher la page d'accueil
+        $controller = new HomeController();
+        $controller->index();
+        break;
 }
 ?>
