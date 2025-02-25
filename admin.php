@@ -22,7 +22,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Liste des Utilisateurs</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Lien vers ta feuille de style -->
+    <link rel="stylesheet" href="assets/css/admin.css"> <!-- Lien vers ta feuille de style -->
 </head>
 <body>
 
