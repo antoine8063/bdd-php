@@ -59,7 +59,7 @@ if (isset($_POST['update_avatar']) && isset($_FILES['avatar'])) {
         if (move_uploaded_file($_FILES['avatar']['tmp_name'], $upload_path)) {
             $query = "UPDATE users SET avatar = :avatar WHERE id = :user_id";
             $stmt = $conn->prepare($query);
-            $stmt->execute([
+            $stmt->execute([ 
                 'avatar' => $new_filename,
                 'user_id' => $user_id
             ]);
@@ -83,9 +83,9 @@ if (isset($_POST['update_username']) && !empty($_POST['new_username'])) {
     // Vérifie si le pseudo existe déjà
     $query = "SELECT id FROM users WHERE username = :username AND id != :user_id";
     $stmt = $conn->prepare($query);
-    $stmt->execute([
-        'username' => $new_username,
-        'user_id' => $user_id
+    $stmt->execute([ 
+        'username' => $new_username, 
+        'user_id' => $user_id 
     ]);
     
     if ($stmt->rowCount() > 0) {
@@ -93,7 +93,7 @@ if (isset($_POST['update_username']) && !empty($_POST['new_username'])) {
     } else {
         $query = "UPDATE users SET username = :username WHERE id = :user_id";
         $stmt = $conn->prepare($query);
-        $stmt->execute([
+        $stmt->execute([ 
             'username' => $new_username,
             'user_id' => $user_id
         ]);
@@ -114,7 +114,7 @@ if (isset($_POST['update_password'])) {
     // Récupère le mot de passe actuel
     $query = "SELECT password FROM users WHERE id = :user_id";
     $stmt = $conn->prepare($query);
-    $stmt->execute(['user_id' => $user_id]);
+    $stmt->execute([ 'user_id' => $user_id ]);
     $current_hashed_password = $stmt->fetchColumn();
     
     if (password_verify($current_password, $current_hashed_password)) {
@@ -124,9 +124,9 @@ if (isset($_POST['update_password'])) {
                 
                 $query = "UPDATE users SET password = :password WHERE id = :user_id";
                 $stmt = $conn->prepare($query);
-                $stmt->execute([
-                    'password' => $hashed_password,
-                    'user_id' => $user_id
+                $stmt->execute([ 
+                    'password' => $hashed_password, 
+                    'user_id' => $user_id 
                 ]);
                 
                 $_SESSION['success'] = "Mot de passe mis à jour avec succès!";
@@ -196,6 +196,11 @@ if (isset($_POST['update_password'])) {
             <input type="password" name="new_password" placeholder="Nouveau mot de passe" required>
             <input type="password" name="confirm_password" placeholder="Confirmer le nouveau mot de passe" required>
             <button type="submit" name="update_password">Mettre à jour le mot de passe</button>
+        </form>
+        
+        <!-- Formulaire de déconnexion -->
+        <form method="post" action="utils/logout.php">
+            <button type="submit" name="logout">Se déconnecter</button>
         </form>
     </div>
     
