@@ -1,27 +1,30 @@
 /* Style général */
 body {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ajouté pour centrer verticalement */
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     background-color: #f1f1f1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     text-align: center;
     color: #333;
+    flex-direction: column;
 }
 
 /* Titre principal */
 h1 {
+    justify-content: center;
     color: #333;
-    margin-bottom: 30px;
     font-size: 2rem;
+    width: 100%; /* Ajouté pour centrer */
+    display: flex; /* Ajouté pour centrer */
+    justify-content: center; /* Ajouté pour centrer */
 }
 
 /* Style du tableau */
 table {
     width: 80%;
-    margin: 0 auto;
+    margin-top: 15%;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -65,14 +68,13 @@ a:hover {
 
 /* Bouton "Ajouter un pari" */
 #ajouterPariBtn {
-    margin: 1rem auto;
     display: block;
-    padding: 0.5rem 1rem;
+    margin: 1rem auto;
+    padding: 0.5rem;
     background-color: #6c63ff;
     color: #fff;
     border: none;
     cursor: pointer;
-    border: none;
     border-radius: 5px;
     font-weight: bold;
 }
@@ -114,12 +116,16 @@ a:hover {
     border-radius: 4px;
     width: 350px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex; /* Ajouté pour centrer */
+    flex-direction: column; /* Ajouté pour centrer */
+    align-items: center; /* Ajouté pour centrer */
 }
 
 /* Formulaire d'ajout de pari */
 #betForm {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Ajouté pour centrer */
 }
 
 #betForm label {
@@ -157,10 +163,13 @@ a:hover {
 /* Responsivité : Pour les écrans plus petits */
 @media (max-width: 768px) {
     table {
-        width: 95%;
+        width: 100%;
     }
     h1 {
         font-size: 1.5rem;
+        width: 100%;
+        display: flex; /* Ajouté pour centrer */
+        justify-content: center; /* Ajouté pour centrer */
     }
     td, th {
         font-size: 12px;
@@ -168,8 +177,13 @@ a:hover {
     }
     #betFormContainer {
         width: 80%;
+        display: flex; /* Ajouté pour centrer */
+        flex-direction: column; /* Ajouté pour centrer */
+        align-items: center; /* Ajouté pour centrer */
     }
     #ajouterPariBtn {
-        width: 100%;
+        width: 80%;
+        margin-left: 15%;
+        
     }
 }

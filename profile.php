@@ -153,8 +153,14 @@ if (isset($_POST['update_password'])) {
     <link rel="stylesheet" href="assets/css/profile.css">
 </head>
 
+
+
+
+<body class="profile-page">
+
+
 <?php include 'partials/header.php'; ?>
-<body>
+
     <div class="profile-container">
         <h1>PROFIL</h1>
         

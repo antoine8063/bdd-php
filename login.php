@@ -9,7 +9,6 @@
 ?>
 <body>
     <div>
-        
         <h1>CONNEXION</h1>
         <!-- Formulaire de connexion -->
         <form method="POST" action="utils/userConnexion.php">

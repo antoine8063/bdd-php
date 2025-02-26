@@ -26,6 +26,11 @@ try {
 </head>
 <body>
 
+<?php
+        include "partials/header.php"
+    ?>
+
+
 <h1>Liste des Utilisateurs Inscrits</h1>
 
 <!-- Tableau des utilisateurs -->

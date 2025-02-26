@@ -1,26 +1,22 @@
-/* profile.css */
-
-body {
+body.profile-page {
     font-family: Arial, sans-serif;
-    max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
     background-color: #f5f5f5;
 }
 
-h1, h2 {
+.profile-page h1, .profile-page h2 {
     text-align: center;
     text-transform: uppercase;
 }
 
-.profile-container {
+.profile-page .profile-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 40px;
 }
 
-.profile-picture {
+.profile-page .profile-picture {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -32,21 +28,21 @@ h1, h2 {
     justify-content: center;
 }
 
-.profile-picture img {
+.profile-page .profile-picture img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.form-container {
+.profile-page .form-container {
     width: 100%;
     max-width: 500px;
     margin: 0 auto 20px;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="file"] {
+.profile-page input[type="text"],
+.profile-page input[type="password"],
+.profile-page input[type="file"] {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
@@ -56,7 +52,7 @@ input[type="file"] {
     background-color: #e9e9e9;
 }
 
-button {
+.profile-page button {
     width: 100%;
     background-color: #4CAF50;
     color: white;
@@ -69,11 +65,11 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
+.profile-page button:hover {
     background-color: #45a049;
 }
 
-.wallet-container {
+.profile-page .wallet-container {
     width: 100%;
     max-width: 500px;
     margin: 20px auto;
@@ -83,34 +79,34 @@ button:hover {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.wallet-label {
+.profile-page .wallet-label {
     font-weight: bold;
     color: #555;
 }
 
-.wallet-balance {
+.profile-page .wallet-balance {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 8px;
 }
 
-.balance-amount {
+.profile-page .balance-amount {
     font-size: 24px;
     font-weight: bold;
 }
 
-.balance-change-positive {
+.profile-page .balance-change-positive {
     color: #4CAF50;
     font-weight: bold;
 }
 
-.balance-change-negative {
+.profile-page .balance-change-negative {
     color: #f44336;
     font-weight: bold;
 }
 
-.success-message {
+.profile-page .success-message {
     color: #4CAF50;
     text-align: center;
     margin: 10px 0;
@@ -120,7 +116,7 @@ button:hover {
     border-radius: 4px;
 }
 
-.error-message {
+.profile-page .error-message {
     color: #f44336;
     text-align: center;
     margin: 10px 0;
@@ -130,7 +126,7 @@ button:hover {
     border-radius: 4px;
 }
 
-.section-title {
+.profile-page .section-title {
     text-align: center;
     text-transform: uppercase;
     margin: 30px 0 15px 0;
@@ -140,16 +136,21 @@ button:hover {
 
 /* Responsive styles */
 @media (max-width: 600px) {
-    .wallet-container, .form-container {
+
+    .profile-page body{
+        width: 80%;
+    }
+
+    .profile-page .wallet-container, .profile-page .form-container {
         max-width: 100%;
     }
     
-    .profile-picture {
+    .profile-page .profile-picture {
         width: 120px;
         height: 120px;
     }
     
-    .balance-amount {
+    .profile-page .balance-amount {
         font-size: 20px;
     }
 }
