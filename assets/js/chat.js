@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Actualiser les messages toutes les 2 secondes
-    setInterval(loadMessages, 2000);
+    setInterval(loadMessages, 1000);
     loadMessages();
 
     // Envoi du message
