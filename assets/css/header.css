@@ -20,8 +20,14 @@ header {
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo img{
+    width:  40%;
+    height: 40%;
+    
 }
 
 .nav-links {
@@ -60,7 +66,7 @@ header {
 }
 
 .menu-hamburger {
-    width: 30px;
+    width: 50px;
     height: 30px;
     fill: white;
     cursor: pointer;
