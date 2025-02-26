@@ -5,24 +5,30 @@
 
 
 <body>
-    <?php
-        session_start();
-        require_once 'utils/database.php';
+    <div id='chat-box'>
+        <?php
+            session_start();
+            require_once 'utils/database.php';
 
-        $db = Database::getInstance();
+            $db = Database::getInstance();
+            $conn = $db->getConnection();
 
-        $conn = $db->getConnection();
+            $message = $conn->prepare("SELECT message, user_id FROM chat ");
+            $message->execute();
 
-        $message = $conn->prepare("SELECT message FROM chat ");
+            $messages = $message->fetchAll(PDO::FETCH_ASSOC);
 
-        $message->execute();
-
-        echo $message->fetchColumn();
-    ?>
-    <form method="POST" action="utils/usemessage.php" enctype="multipart/form-data">
+            foreach ($messages as $msg) {
+                echo "utilisateur " . $msg['user_id']. " : " . $msg['message'] . "<br>";
+            }
+        ?>
+    </div>
+    <form id='chat-form'>
         <section class=container>
-            <input type="text" id="message" placeholder="Entrez votre message...">
-            <button type="submit" id="send">Envoyer</button>
+            <input type="text" name='message' id="message" placeholder="Entrez votre message...">
+        </section>
+        <section class=container>
+            <input type="submit" name="submit" value="connexion" id="conn"/>
         </section>
     </form>
 </body>
