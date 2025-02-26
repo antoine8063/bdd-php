@@ -1,0 +1,163 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #fff;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+    background: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+header {
+    background: #fff;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+
+.match-card {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.match-card:last-child {
+    border-bottom: none;
+}
+
+.match-summary .teams {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.match-summary .team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.match-summary .team img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    border-radius: 50%;
+    border: 1px solid #000;
+}
+
+.match-summary .team span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+}
+
+.match-summary .vs {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000;
+}
+
+.match-details {
+    display: none;
+    margin-top: 15px;
+}
+
+.bet-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option {
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.option .team, .option .odds, .option .percentage {
+    font-size: 14px;
+    z-index: 2;
+    color: #000;
+}
+
+.option .odds {
+    font-weight: bold;
+}
+
+.option .percentage {
+    font-weight: bold;
+}
+
+.percentage-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.option[data-percentage="45%"] .percentage-bar {
+    width: 45%;
+}
+
+.option[data-percentage="30%"] .percentage-bar {
+    width: 30%;
+}
+
+.option[data-percentage="25%"] .percentage-bar {
+    width: 25%;
+}
+
+.bet-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.bet-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #007bff;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.bet-buttons button:hover {
+    background: #0056b3;
+}
