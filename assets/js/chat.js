@@ -1,3 +1,7 @@
+const chatContainer = document.getElementById("chatcontainer");
+function scrollToBottom() {
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+}
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("chat-form");
     const messageInput = document.getElementById("message");
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(response => response.text())
             .then(() => {
                 messageInput.value = ""; // Efface le champ message
-                loadMessages(); // Recharge les messages
+                scrollToBottom();
             });
     });
 });
