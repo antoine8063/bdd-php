@@ -2,13 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 
 /* Navigation */
 header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #222;
     padding: 15px 50px;
@@ -59,6 +57,7 @@ header {
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    margin-left: auto; /* Ajouté pour pousser le bouton à droite */
 }
 
 .bet-now:hover {
