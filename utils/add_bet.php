@@ -1,54 +1,58 @@
 <?php
-require_once 'database.php'; // Inclure la connexion à la base de données
+require_once 'database.php';
 
-// Récupérer l'instance de connexion
 $db = Database::getInstance();
 $connexion = $db->getConnection();
 
-$response = [];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['betCategory'], $_POST['team1'], $_POST['odds1'], $_POST['team2'], $_POST['odds2'])) {
+    // Récupération des données du formulaire
+    $title = $_POST['title'];
+    $betCategory = $_POST['betCategory'];
+    $team1 = $_POST['team1'];
+    $odds1 = floatval($_POST['odds1']);
+    $team2 = $_POST['team2'];
+    $odds2 = floatval($_POST['odds2']);
 
-try {
-    // Vérifier si les données sont envoyées par POST
-    if (isset($_POST['title']) && isset($_POST['betCategory']) && isset($_POST['team1']) && isset($_POST['odds1']) && isset($_POST['team2']) && isset($_POST['odds2'])) {
-        $title = $_POST['title']; // Nom du pari
-        $betCategory = $_POST['betCategory']; // Catégorie
-        $team1 = $_POST['team1']; // Équipe 1
-        $odds1 = $_POST['odds1']; // Cote Équipe 1
-        $team2 = $_POST['team2']; // Équipe 2
-        $odds2 = $_POST['odds2']; // Cote Équipe 2
-
-        // Validation des cotes
-        if ($odds1 <= 0 || $odds2 <= 0) {
-            $response = [
-                'success' => false,
-                'message' => 'Les cotes doivent être supérieures à 0.'
-            ];
-        } else {
-            // Insertion du pari dans la base de données
-            $stmt = $connexion->prepare("INSERT INTO bets (title, odds, category) VALUES (?, ?, ?)");
-            $stmt->execute([$team1 . " vs " . $team2, $odds1 . '/' . $odds2, $betCategory]);
-
-            // Réponse en cas de succès
-            $response = [
-                'success' => true,
-                'message' => 'Le pari a été ajouté avec succès.'
-            ];
-        }
-    } else {
-        // Si des champs manquent
-        $response = [
-            'success' => false,
-            'message' => 'Des champs sont manquants.'
-        ];
+    // Validation des cotes
+    if ($odds1 <= 0 || $odds2 <= 0) {
+        echo json_encode(["success" => false, "message" => "Les cotes doivent être supérieures à 0."]);
+        exit;
     }
-} catch (PDOException $e) {
-    // Erreur dans l'insertion
-    $response = [
-        'success' => false,
-        'message' => 'Erreur lors de l’enregistrement du pari : ' . $e->getMessage()
-    ];
-}
 
-// Retourner la réponse au format JSON
-echo json_encode($response);
+    try {
+        // 1. Insertion du pari dans la table bets
+        $stmt = $connexion->prepare("INSERT INTO bets (title, category) VALUES (:title, :category)");
+        $stmt->execute([
+            ':title' => $title,
+            ':category' => $betCategory
+        ]);
+
+        // Récupération de l'ID du pari inséré
+        $betId = $connexion->lastInsertId();
+
+        // 2. Insertion des équipes et de leurs cotes dans la table bet_teams
+        $stmt = $connexion->prepare("INSERT INTO bet_teams (bet_id, team_name, odds) VALUES (:bet_id, :team_name, :odds)");
+
+        // Insertion de l'équipe 1
+        $stmt->execute([
+            ':bet_id' => $betId,
+            ':team_name' => $team1,
+            ':odds' => $odds1
+        ]);
+
+        // Insertion de l'équipe 2
+        $stmt->execute([
+            ':bet_id' => $betId,
+            ':team_name' => $team2,
+            ':odds' => $odds2
+        ]);
+
+        // Si tout est ok, renvoyer une réponse JSON de succès
+        echo json_encode(["success" => true]);
+
+    } catch (PDOException $e) {
+        error_log("Erreur lors de l'ajout du pari : " . $e->getMessage());
+        echo json_encode(["success" => false, "message" => "Erreur lors de l'ajout du pari."]);
+    }
+}
 ?>

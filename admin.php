@@ -14,32 +14,6 @@ try {
     error_log("Erreur lors de la récupération des utilisateurs : " . $e->getMessage());
     $users = [];  // Tableau vide en cas d'erreur
 }
-
-// Traitement de l'ajout d'un pari via POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['betCategory'], $_POST['team1'], $_POST['odds1'], $_POST['team2'], $_POST['odds2'])) {
-    // Validation et ajout du pari
-    $title = $_POST['title'];
-    $betCategory = $_POST['betCategory'];
-    $team1 = $_POST['team1'];
-    $odds1 = $_POST['odds1'];
-    $team2 = $_POST['team2'];
-    $odds2 = $_POST['odds2'];
-
-    // Validation des cotes
-    if ($odds1 <= 0 || $odds2 <= 0) {
-        $error = "Les cotes doivent être supérieures à 0.";
-    } else {
-        try {
-            // Insertion dans la base de données
-            $stmt = $connexion->prepare("INSERT INTO bets (title, odds, category) VALUES (:title, :odds, :category)");
-            $stmt->execute([':title' => $team1 . " vs " . $team2, ':odds' => "$odds1/$odds2", ':category' => $betCategory]);
-            $successMessage = "Pari ajouté avec succès!";
-        } catch (PDOException $e) {
-            error_log("Erreur lors de l'ajout du pari : " . $e->getMessage());
-            $error = "Erreur lors de l'ajout du pari.";
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -53,14 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['betC
 <body>
 
 <h1>Liste des Utilisateurs Inscrits</h1>
-
-<!-- Affichage du message de succès ou erreur -->
-<?php if (isset($successMessage)): ?>
-    <div class="alert success"><?php echo htmlspecialchars($successMessage); ?></div>
-<?php endif; ?>
-<?php if (isset($error)): ?>
-    <div class="alert error"><?php echo htmlspecialchars($error); ?></div>
-<?php endif; ?>
 
 <!-- Tableau des utilisateurs -->
 <table>
@@ -106,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['betC
             <select id="betCategory" name="betCategory" required>
                 <option value="Football">Football</option>
                 <option value="Basketball">Basketball</option>
-                <!-- Ajouter d'autres catégories ici -->
             </select>
 
             <label for="team1">Équipe 1</label>
@@ -128,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['title'], $_POST['betC
     </div>
 </div>
 
-<script src="/assets/js/admin.js"></script>
+<script src="/utils/admin.js"></script>
 
 </body>
 </html>
