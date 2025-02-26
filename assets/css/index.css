@@ -3,14 +3,11 @@ body {
     font-family: 'Montserrat', sans-serif;
     background-color: #f4f4f4;
     text-align: center;
-    margin-top: 10%;
 }
-
-
 
 /* Section Intro */
 .intro {
-    margin: 50px 0;
+    width: 100%;
 }
 
 .how-it-works {
@@ -23,6 +20,7 @@ body {
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s;
+    margin-top: 10%;
 }
 
 .how-it-works:hover {
@@ -35,7 +33,9 @@ body {
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin: 40px 20px;
+    margin: 40px auto;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .info-box {
@@ -59,9 +59,10 @@ body {
     color: white;
     padding: 20px;
     border-radius: 10px;
-    margin: 40px;
     font-style: italic;
     font-weight: bold;
+    margin-left: 20%;
+    margin-right: 20%;
 }
 
 .stat {
@@ -73,4 +74,32 @@ body {
     font-weight: bold;
     display: block;
     margin-top: 5px;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    
+    .intro {
+        margin-top: 10%;
+    }
+    
+    
+    
+    .info-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .info-box {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 20px;
+        display: flex;
+        justify-content: center;
+        
+    }
 }
