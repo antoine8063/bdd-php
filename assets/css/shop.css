@@ -1,0 +1,152 @@
+/* Variables CSS pour une cohérence globale */
+:root {
+    --color-primary: #1a1a1a; /* Noir profond */
+    --color-secondary: #2c3e50; /* Gris foncé */
+    --color-accent: #8a2be2; /* Violet vif */
+    --color-success: #9b59b6; /* Violet plus doux */
+    --color-text: #ffffff; /* Blanc */
+    --color-background: linear-gradient(135deg, #1a1a1a, #9b59b6); /* Dégradé noir à gris foncé */
+    --color-card-background: rgba(44, 62, 80, 0.8); /* Fond des cartes semi-transparent */
+    --color-card-hover: rgba(138, 43, 226, 0.1); /* Légère teinte violette au survol */
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --border-radius: 12px;
+}
+
+/* Reset de base */
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--color-background);
+    color: var(--color-text);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+h1, h2 {
+    color: var(--color-text);
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Grille pour les articles de la boutique */
+.shop-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px;
+}
+
+/* Style des cartes de produits */
+.item {
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Effet de flou pour un look moderne */
+}
+
+.item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    border-color: var(--color-accent);
+    background-color: var(--color-card-hover);
+}
+
+.item h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: var(--color-text);
+}
+
+.item p {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.item button {
+    background: linear-gradient(135deg, var(--color-accent), #6a1b9a);
+    color: var(--color-text);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.item button:hover {
+    background: linear-gradient(135deg, var(--color-success), #8e44ad);
+    transform: scale(1.05);
+}
+
+/* Style du panier */
+.cart {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: var(--color-card-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); /* Effet de flou pour un look moderne */
+}
+
+.cart ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cart li:last-child {
+    border-bottom: none;
+}
+
+.cart button {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: var(--color-text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+}
+
+.cart button:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.cart a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--color-accent), #6a1b9a);
+    color: var(--color-text);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cart a:hover {
+    background: linear-gradient(135deg, var(--color-success), #8e44ad);
+    transform: scale(1.05);
+}

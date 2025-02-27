@@ -9,22 +9,24 @@ header {
     display: flex;
     align-items: center;
     background-color: #222;
-    padding: 15px 50px;
     color: white;
-    position: fixed;
+    position: absolute;
     width: 100%;
     top: 0;
     z-index: 1000;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
     display: flex;
     align-items: center;
+    padding: 0%;
 }
 
 .logo img{
-    width:  40%;
-    height: 40%;
+    width:  30%;
+    height: 30%;
     
 }
 
@@ -32,6 +34,9 @@ header {
     list-style: none;
     display: flex;
     gap: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    
 }
 
 .nav-links li {
@@ -58,6 +63,7 @@ header {
     font-weight: bold;
     transition: background-color 0.3s ease;
     margin-left: auto; /* Ajouté pour pousser le bouton à droite */
+    margin-right: auto; /* Ajouté pour espacer le bouton du reste du menu */
 }
 
 .bet-now:hover {
@@ -73,7 +79,7 @@ header {
 }
 
 /* Responsive Design */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1160px) {
     header {
         padding: 15px 30px;
     }
