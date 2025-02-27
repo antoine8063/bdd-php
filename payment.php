@@ -16,6 +16,11 @@ session_start();
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
+
+<?php
+        include "partials/header.php"
+    ?>
+
     <h1>Paiement pour votre achat</h1>
 
     <!-- Formulaire de paiement -->

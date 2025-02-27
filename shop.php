@@ -38,6 +38,12 @@ $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="assets/css/shop.css">
 </head>
 <body>
+
+<?php
+        include "partials/header.php"
+    ?>
+
+
     <h1>Bienvenue sur la boutique BetFactory</h1>
 
     <div class="shop-items">

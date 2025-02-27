@@ -13,7 +13,6 @@ header {
     position: absolute;
     width: 100%;
     top: 0;
-    z-index: 1000;
     justify-content: space-between;
     align-items: center;
 }
@@ -80,9 +79,6 @@ header {
 
 /* Responsive Design */
 @media screen and (max-width: 1160px) {
-    header {
-        padding: 15px 30px;
-    }
     
     .menu-hamburger {
         display: block;
