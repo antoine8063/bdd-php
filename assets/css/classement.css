@@ -1,0 +1,79 @@
+h1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centre le formulaire horizontalement */
+    justify-content: center;
+    margin: 20px auto; /* Espace autour du formulaire */
+    padding: 20px;
+    background-color: #6c5ce7; /* Fond sombre en harmonie avec la page */
+    border-radius: 12px; /* Coins arrondis pour un design moderne */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Ombre pour effet de profondeur */
+    max-width: 400px;
+    width: 50%; /* Largeur ajustable */
+    max-width: 500px; /* Limite maximale */
+}
+
+form .filter {
+    margin-bottom: 15px; /* Espacement entre le champ et le bouton */
+}
+
+form #champ {
+    width: 100%; /* Largeur du champ pour s'adapter au formulaire */
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #ffffff; /* Couleur claire pour le texte */
+    background-color: #ffffff; /* Fond bleu nuit */
+    border: 1px solid #000000; /* Bordure assortie au tableau */
+    border-radius: 8px; /* Coins arrondis */
+    outline: none; /* Supprime l'effet de focus par défaut */
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+form #champ:focus {
+    border-color: #f5a623; /* Changement de couleur au focus */
+    box-shadow: 0 0 8px rgba(245, 166, 35, 0.5); /* Effet lumineux */
+}
+
+
+
+
+
+
+
+  
+  th, td {
+    border: 1px solid #000000;
+    padding: 10px; 
+  }
+  
+  th {
+    background-color: #6c5ce7;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    width: auto;
+  }
+  
+  td {
+    text-align: center;
+    width: 30%;
+  }
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px auto;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+}
