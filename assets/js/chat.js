@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("chat-form");
     const messageInput = document.getElementById("message");
     const chatBox = document.getElementById("chat-box");
+    const chatContainer = document.getElementById("chatcontainer");
+
 
     // Charger les messages
     function loadMessages() {
@@ -10,8 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 chatBox.innerHTML = "";
                 data.forEach(msg => {
-                    chatBox.innerHTML += `<p><strong>Utilisateur ${msg.user_id}:</strong> ${msg.message}</p>`;
+                    chatBox.innerHTML += <p><strong>Utilisateur ${msg.user_id}:</strong> ${msg.message}</p>;
                 });
+                chatContainer.scrollTop = chatContainer.scrollHeight;//scroll vers le bas
             });
     }
 

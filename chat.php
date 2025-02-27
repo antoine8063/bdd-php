@@ -26,11 +26,17 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+<<<<<<< HEAD
     <meta charset="UTF-8">
     <title>Mon Panier</title>
     <link rel="stylesheet" href="assets/css/styles-shop.css">
+=======
+    <link rel="stylesheet" href="assets/chat.css">
+    <script src="assets/js/chat.js"></script>
+>>>>>>> 72139e4d3c4c7868d3b3a9b95161d3fd7a22ff3a
 </head>
 <body>
+<<<<<<< HEAD
     <h1>Mon Panier</h1>
 
     <?php if (empty($items)): ?>
@@ -69,5 +75,23 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
 
     <a href="shop.php">Retour à la boutique</a>
+=======
+<div id='chat'>
+        <div id='chatcontainer'>
+            <div id='chat-box'>
+                <!--zone de chat-->
+            </div>
+        </div>
+        <div id='barre'></div>
+        <form id='chat-form'>
+            <section class=container>
+                <input type="text" name='message' id="message" placeholder="Entrez votre message...">
+            </section>
+            <section class=container>
+                <input type="submit" name="submit" value="connexion" id="conn"/>
+            </section>
+        </form>
+    </div>
+>>>>>>> 72139e4d3c4c7868d3b3a9b95161d3fd7a22ff3a
 </body>
 </html>
