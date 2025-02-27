@@ -11,7 +11,7 @@ body {
     overflow: hidden;
 }
 
-div {
+#login {
     background: #1e1e1e;
     padding: 30px;
     border-radius: 12px;

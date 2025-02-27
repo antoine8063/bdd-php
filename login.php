@@ -2,13 +2,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeu de Mémoire</title>
-    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="assets/login.css">
 </head>
 <?php
     include "partials/header.php"
 ?>
 <body>
-    <div>
+    <div id="login">
         <h1>CONNEXION</h1>
         <!-- Formulaire de connexion -->
         <form method="POST" action="utils/userConnexion.php">

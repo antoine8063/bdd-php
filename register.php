@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeu de Mémoire</title>
-    <link rel="stylesheet" href="assets/css/register.css">
+    <link rel="stylesheet" href="assets/register.css">
 </head>
 
 <?php
@@ -11,7 +11,7 @@
 
 <body>
 
-    <div>
+    <div id="register">
         <h1>REGISTRATION</h1> 
         <?php
             session_start();
