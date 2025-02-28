@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+#balanceDisplay {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#addMoneyButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#addMoneyButton:hover {
+    background-color: #45a049;
+}
+
+#sportsBets {
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.bet {
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.bet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bet-details {
+    display: none;
+    margin-top: 10px;
+}
+
+.bet-details img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.bet-options {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.bet-options button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.bet-options button:hover {
+    background-color: #45a049;
+}
+
+/* Styles pour la boîte de dialogue */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 300px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+}
+
+.hidden {
+    display: none;
+}
