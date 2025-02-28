@@ -3,63 +3,72 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
 
-// Informations de connexion à la base de données
-$host = 'localhost';
-$db   = 'betfactory';
-$user = 'root';
-$pass = 'root';
+// Informations de connexion
+$host    = 'localhost';
+$db      = 'betfactory';
+$user    = 'root';
+$pass    = 'root';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ];
 
-// Connexion à la base de données
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 
-    // Si la requête est GET, récupérer les paris
+    // ----------------------------
+    // Requête GET : Récupérer les paris et leurs équipes (via team_bets)
+    // ----------------------------
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        // Récupérer tous les paris depuis la table bets
         $stmt = $pdo->query("SELECT * FROM bets");
         $bets = $stmt->fetchAll();
         
-        // Ajouter les informations des équipes et des cotes
+        if (empty($bets)) {
+            echo json_encode(['success' => false, 'message' => 'Aucun pari trouvé dans la base de données.']);
+            exit;
+        }
+        
+        // Pour chaque pari, récupérer la ligne associée dans team_bets (on suppose qu'il y a une seule ligne par pari)
         foreach ($bets as &$bet) {
             $betId = $bet['id'];
-            $stmt_teams = $pdo->prepare("SELECT * FROM bet_teams WHERE bet_id = :betId");
-            $stmt_teams->execute(['betId' => $betId]);
-            $teams = $stmt_teams->fetchAll();
+            $stmtTeams = $pdo->prepare("SELECT * FROM bet_teams WHERE bet_id = :betId");
+            $stmtTeams->execute(['betId' => $betId]);
+            $teamData = $stmtTeams->fetch(); // On attend une seule ligne par pari
             
-            if ($teams) {
-                foreach ($teams as $team) {
-                    if ($team['team_name'] == 'Team A') {
-                        $bet['team_a'] = $team['team_name'];
-                        $bet['odds_a'] = $team['odds'];
-                    } elseif ($team['team_name'] == 'Team B') {
-                        $bet['team_b'] = $team['team_name'];
-                        $bet['odds_b'] = $team['odds'];
-                    } elseif ($team['team_name'] == 'Draw') {
-                        $bet['draw_odds'] = $team['odds'];
-                    }
-                }
+            if ($teamData) {
+                // On remplit l'objet $bet avec les informations de team_bets
+                $bet['team_name']       = $teamData['team_name'];  // option générique si besoin
+                $bet['team_a']          = $teamData['team_a'];
+                $bet['odds_a']          = $teamData['odds_a'];
+                $bet['percentage_a']    = $teamData['percentage_a'];
+                $bet['team_b']          = $teamData['team_b'];
+                $bet['odds_b']          = $teamData['odds_b'];
+                $bet['percentage_b']    = $teamData['percentage_b'];
+                $bet['draw_odds']       = $teamData['draw_odds'];
+                $bet['percentage_draw'] = $teamData['percentage_draw'];
+                // Optionnellement, on peut conserver la colonne 'odds' qui vient de bets si besoin
             } else {
-                // Ajouter un message d'erreur si les équipes n'existent pas
                 $bet['error'] = 'Aucune équipe trouvée pour ce pari';
             }
         }
-
+        
         echo json_encode(['success' => true, 'bets' => $bets]);
+        exit;
     }
 
-    // Si la requête est POST, placer un pari
+    // ----------------------------
+    // Requête POST : Placer un pari
+    // ----------------------------
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = json_decode(file_get_contents('php://input'), true);
 
         $userId = $data['userId'];
-        $betId = $data['betId'];
-        $choice = $data['choice']; // Choix (ex: 'Team A', 'Draw', 'Team B')
+        $betId  = $data['betId'];
+        $choice = $data['choice'];  // Exemple : 'Team A', 'Draw' ou 'Team B'
         $amount = $data['amount'];
 
         // Validation des données
@@ -68,7 +77,7 @@ try {
             exit;
         }
 
-        // Vérification du solde de l'utilisateur
+        // Vérifier le solde de l'utilisateur
         $stmt = $pdo->prepare("SELECT balance FROM users WHERE id = :userId");
         $stmt->execute(['userId' => $userId]);
         $user = $stmt->fetch();
@@ -83,14 +92,14 @@ try {
             exit;
         }
 
-        // Insérer le pari dans la table 'bets_users'
+        // Insérer le pari dans la table bets_users
         $stmt = $pdo->prepare("
             INSERT INTO bets_users (user_id, bet_id, amount, choice) 
             VALUES (:userId, :betId, :amount, :choice)
         ");
         $stmt->execute([
             'userId' => $userId,
-            'betId' => $betId,
+            'betId'  => $betId,
             'amount' => $amount,
             'choice' => $choice
         ]);
@@ -108,6 +117,7 @@ try {
         $stmt->execute(['userId' => $userId, 'amount' => $amount]);
 
         echo json_encode(['success' => true, 'message' => 'Pari placé avec succès']);
+        exit;
     }
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Erreur de base de données : ' . $e->getMessage()]);
