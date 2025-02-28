@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 chatBox.innerHTML = "";
                 data.forEach(msg => {
-                    chatBox.innerHTML += `<p><strong>Utilisateur ${msg.user_id}:</strong> ${msg.message}</p>`;
+                    chatBox.innerHTML += `<p><strong>${msg.username}:</strong> ${msg.message}</p>`;
 
                 });
                 chatContainer.scrollTop = chatContainer.scrollHeight;//scroll vers le bas
