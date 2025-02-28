@@ -6,7 +6,7 @@
     </head>
 
     <header>
-    <div class="logo"> <img src="../assets/img/logo.png" alt="logo"></div>
+    <div class="logo"> <img src="assets/img/logo.png" alt="logo"></div>
     <!-- Nav Links doivent avoir la classe 'nav-links' -->
     <ul class="nav-links" id="nav-links">
         <li><a href="index.php">ACCUEIL</a></li>

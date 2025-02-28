@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Utiliser l'ID de l'utilisateur passé depuis PHP
-    if (!userId) {
-        console.error("Aucun utilisateur connecté.");
-        return;
-    }
-
+    const userId = 1; // ID de l'utilisateur connecté
     const addMoneyButton = document.getElementById('addMoneyButton');
     const addMoneyModal = document.getElementById('addMoneyModal');
     const closeModalButton = document.getElementById('closeModalButton');
@@ -15,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let userBalance = 0;
 
-    // Mettre à jour l'affichage du solde
+    // Met à jour l'affichage du solde
     function updateBalanceDisplay() {
         balanceDisplay.textContent = `Solde : ${userBalance.toFixed(2)}€`;
     }
 
-    // Récupérer le solde de l'utilisateur
+    // Récupère le solde de l'utilisateur
     function fetchUserBalance() {
-        fetch('getUser.php?id=${userId}') // Pas besoin de passer l'ID dans l'URL
+        fetch(`getUser.php?id=${userId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -35,72 +30,119 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Erreur:', error));
     }
 
-    // Charger les paris sportifs depuis la base
+    // Charge les paris depuis getBets.php (mode GET)
     function loadSportsBets() {
         fetch('getBets.php')
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    const bets = data.bets;
-                    sportsBets.innerHTML = '';
-                    if(bets.length === 0){
-                        sportsBets.innerHTML = '<p>Aucun pari disponible.</p>';
-                    } else {
-                        bets.forEach(bet => {
-                            const betElement = document.createElement('div');
-                            betElement.classList.add('bet');
+                console.log("Données reçues :", data);
+                sportsBets.innerHTML = ''; // Réinitialise l'affichage
 
-                            const betHeader = document.createElement('div');
-                            betHeader.classList.add('bet-header');
-                            betHeader.innerHTML = `
-                                <span>${bet.title}</span>
-                                <span>${bet.category}</span>
-                                <span>${new Date(bet.created_at).toLocaleTimeString()}</span>
-                            `;
+                if (data.success && Array.isArray(data.bets) && data.bets.length > 0) {
+                    data.bets.forEach(bet => {
+                        // Vérifie que les informations essentielles sont présentes
+                        if (!bet.team_a || !bet.odds_a || !bet.team_b || !bet.odds_b || !bet.draw_odds) {
+                            console.error("Données manquantes pour le pari:", bet);
+                            return;
+                        }
 
-                            const betDetails = document.createElement('div');
-                            betDetails.classList.add('bet-details');
-                            betDetails.innerHTML = `
-                                <p>Cote : ${parseFloat(bet.odds).toFixed(2)}</p>
-                                <p>Status : ${bet.status}</p>
-                            `;
+                        const betElement = document.createElement('div');
+                        betElement.classList.add('bet');
 
-                            const betButton = document.createElement('button');
-                            betButton.textContent = 'Parier';
-                            betButton.addEventListener('click', function () {
-                                alert(`Vous avez parié sur : ${bet.title}`);
-                            });
+                        const betHeader = document.createElement('div');
+                        betHeader.classList.add('bet-header');
+                        betHeader.innerHTML = `
+                            <span>${bet.title}</span>
+                            <span>${bet.category}</span>
+                            <span>${new Date(bet.created_at).toLocaleString()}</span>
+                        `;
 
-                            betDetails.appendChild(betButton);
+                        const betDetails = document.createElement('div');
+                        betDetails.classList.add('bet-details');
+                        betDetails.innerHTML = `
+                            <div class="bet-options">
+                                <button class="bet-option" data-bet-id="${bet.id}" data-team="${bet.team_a}" data-odds="${bet.odds_a}" data-choice="Team A">
+                                    ${bet.team_a} - Cote: ${bet.odds_a} (${bet.percentage_a}%)
+                                </button>
+                                <button class="bet-option" data-bet-id="${bet.id}" data-team="Nul" data-odds="${bet.draw_odds}" data-choice="Draw">
+                                    Nul - Cote: ${bet.draw_odds} (${bet.percentage_draw}%)
+                                </button>
+                                <button class="bet-option" data-bet-id="${bet.id}" data-team="${bet.team_b}" data-odds="${bet.odds_b}" data-choice="Team B">
+                                    ${bet.team_b} - Cote: ${bet.odds_b} (${bet.percentage_b}%)
+                                </button>
+                            </div>
+                        `;
 
-                            // Ouvrir/fermer les détails en cliquant sur l'en-tête
-                            betHeader.addEventListener('click', function () {
-                                betDetails.style.display = betDetails.style.display === 'block' ? 'none' : 'block';
-                            });
-
-                            betElement.appendChild(betHeader);
-                            betElement.appendChild(betDetails);
-                            sportsBets.appendChild(betElement);
+                        // Clique sur l'en-tête pour afficher ou masquer les détails
+                        betHeader.addEventListener('click', function () {
+                            betDetails.style.display = (betDetails.style.display === 'block') ? 'none' : 'block';
                         });
-                    }
+
+                        betElement.appendChild(betHeader);
+                        betElement.appendChild(betDetails);
+                        sportsBets.appendChild(betElement);
+                    });
+
+                    // Ajoute les écouteurs aux boutons de pari
+                    const betButtons = document.querySelectorAll('.bet-option');
+                    betButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            const betId = this.getAttribute('data-bet-id');
+                            const team = this.getAttribute('data-team');
+                            const odds = this.getAttribute('data-odds');
+                            placeBet(betId, team, odds);
+                        });
+                    });
                 } else {
-                    sportsBets.innerHTML = `<p>${data.message}</p>`;
+                    sportsBets.innerHTML = '<p>Aucun pari disponible.</p>';
                 }
             })
-            .catch(error => console.error('Erreur:', error));
+            .catch(error => console.error('Erreur lors du chargement des paris:', error));
     }
 
-    // Ouvrir le modal d'ajout d'argent
+    // Fonction pour placer un pari en mode POST vers getBets.php
+    function placeBet(betId, choice, odds) {
+        const amount = prompt(`Vous pariez sur ${choice} avec une cote de ${odds}. Entrez le montant (€) :`);
+        if (!amount || isNaN(amount) || amount <= 0) {
+            alert("Montant invalide.");
+            return;
+        }
+        if (parseFloat(amount) > userBalance) {
+            alert("Solde insuffisant pour ce pari.");
+            return;
+        }
+
+        // Envoie la requête POST à getBets.php
+        fetch('getBets.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: userId,
+                betId: betId,
+                choice: choice,
+                amount: parseFloat(amount)
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                userBalance -= parseFloat(amount); // Met à jour le solde
+                updateBalanceDisplay();
+                alert(`Pari placé avec succès sur ${choice} (${odds}).`);
+            } else {
+                alert(`Erreur lors du pari: ${data.message}`);
+            }
+        })
+        .catch(error => console.error('Erreur lors du placement du pari:', error));
+    }
+
+    // Gestion du modal pour l'ajout d'argent
     addMoneyButton.addEventListener('click', function () {
         addMoneyModal.classList.remove('hidden');
     });
-
-    // Fermer le modal
     closeModalButton.addEventListener('click', function () {
         addMoneyModal.classList.add('hidden');
     });
-
-    // Confirmer l'ajout d'argent
     confirmAddMoneyButton.addEventListener('click', function () {
         const amount = parseFloat(moneyInput.value);
         if (amount > 0) {
@@ -114,14 +156,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     userBalance = parseFloat(data.newBalance);
                     updateBalanceDisplay();
-                    sportsBets.classList.remove('hidden');
                     addMoneyModal.classList.add('hidden');
                     alert(`Vous avez ajouté ${amount}€. Votre solde est maintenant de ${userBalance}€.`);
                 } else {
                     alert(`Erreur lors de la mise à jour du solde: ${data.message}`);
                 }
             })
-            .catch(error => console.error('Erreur:', error));
+            .catch(error => console.error('Erreur lors de l\'ajout d\'argent:', error));
         } else {
             alert('Veuillez entrer un montant valide.');
         }
@@ -130,7 +171,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialiser l'affichage
     fetchUserBalance();
     loadSportsBets();
-
-    // Pour le test : décommenter la ligne ci-dessous pour forcer l'affichage des paris même sans ajout d'argent
-    // sportsBets.classList.remove('hidden');
 });
