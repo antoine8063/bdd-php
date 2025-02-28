@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,9 +10,7 @@
 </head>
 <body>
 
-<?php
-        include "partials/header.php"
-    ?>
+<?php include "partials/header.php"; ?>
 
   <div id="app">
     <!-- En-tête avec le bouton pour ajouter de l'argent et le solde -->
@@ -18,6 +18,11 @@
       <div id="balanceDisplay">Solde : 0€</div>
       <button id="addMoneyButton">Ajouter de l'argent</button>
     </div>
+    <?php
+session_start();
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+?>
+
 
     <!-- Section des paris sportifs (initialement masquée) -->
     <div id="sportsBets" class="hidden">
@@ -35,11 +40,12 @@
     </div>
   </div>
 
+  <script>
+    // Passer l'ID de l'utilisateur à JavaScript
+    const userId = <?php echo json_encode($user_id); ?>;
+  </script>
   <script src="assets/js/bet.js"></script>
-
-  <?php
-        include "partials/footer.php"
-    ?>
+  <?php include "partials/footer.php"; ?>
 
 </body>
 </html>

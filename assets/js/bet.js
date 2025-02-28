@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const userId = 1; // ID de l'utilisateur connecté (à gérer via session dans une appli réelle)
+    // Utiliser l'ID de l'utilisateur passé depuis PHP
+    if (!userId) {
+        console.error("Aucun utilisateur connecté.");
+        return;
+    }
+
     const addMoneyButton = document.getElementById('addMoneyButton');
     const addMoneyModal = document.getElementById('addMoneyModal');
     const closeModalButton = document.getElementById('closeModalButton');
@@ -17,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Récupérer le solde de l'utilisateur
     function fetchUserBalance() {
-        fetch(`getUser.php?id=${userId}`)
+        fetch('getUser.php?id=${userId}') // Pas besoin de passer l'ID dans l'URL
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -109,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.success) {
                     userBalance = parseFloat(data.newBalance);
                     updateBalanceDisplay();
-                    // Décommenter la ligne suivante pour afficher automatiquement les paris après ajout d'argent
                     sportsBets.classList.remove('hidden');
                     addMoneyModal.classList.add('hidden');
                     alert(`Vous avez ajouté ${amount}€. Votre solde est maintenant de ${userBalance}€.`);
