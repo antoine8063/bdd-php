@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 </head>
 
-<body>
+
 <footer>
     <div class="footer-container">
     <section class="Information">
@@ -39,4 +39,3 @@
             <p> <strong>BetFactory</strong> © 2025 Tous droits réservés</p>
     </section>
 </footer>
-</body>
