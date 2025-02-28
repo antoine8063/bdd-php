@@ -10,11 +10,20 @@ $connexion = $db->getConnection();
 try {
     $stmt = $connexion->query("SELECT id, username, email, role, balance, created_at FROM users");
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Vérifiez si des utilisateurs ont été récupérés
+    if (!$users) {
+        throw new Exception("Aucun utilisateur trouvé.");
+    }
 } catch (PDOException $e) {
     error_log("Erreur lors de la récupération des utilisateurs : " . $e->getMessage());
     $users = [];  // Tableau vide en cas d'erreur
+} catch (Exception $e) {
+    error_log("Erreur : " . $e->getMessage());
+    $users = [];
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +31,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Admin - Liste des Utilisateurs</title>
-    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
 </head>
 <body>
 
@@ -64,14 +73,16 @@ try {
 <!-- Fenêtre modale pour ajouter un pari -->
 <div id="betFormModal">
     <div id="betFormContainer">
-        <form id="betForm" action="ajouter_pari.php" method="POST">
+        <form id="betForm" action="admin.php" method="POST">
             <label for="title">Nom du Pari</label>
             <input type="text" id="title" name="title" required>
 
             <label for="betCategory">Catégorie du Pari</label>
             <select id="betCategory" name="betCategory" required>
-                <option value="Football">Football</option>
-                <option value="Basketball">Basketball</option>
+                <option value="bagarre">Bagarre</option>
+                <option value="jeux vidéo">Jeux Vidéo</option>
+                <option value="compétition">Compétition</option>
+                <option value="autre">Autre</option>
             </select>
 
             <label for="team1">Équipe 1</label>
@@ -93,7 +104,7 @@ try {
     </div>
 </div>
 
-<script src="/utils/admin.js"></script>
+<script src="assets/js/bet.js"></script>
 
 </body>
 </html>

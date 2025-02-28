@@ -1,19 +1,18 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+include 'log_errors.php'; // Pour journaliser les erreurs sans les afficher
+
 header('Content-Type: application/json');
 
-if (!isset($_GET['id'])) {
-    echo json_encode(['success' => false, 'message' => 'User ID manquant']);
+$userId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if (!$userId) {
+    echo json_encode(['success' => false, 'message' => 'ID utilisateur invalide']);
     exit;
 }
 
-$userId = intval($_GET['id']);
-
 $host = 'localhost';
 $db   = 'betfactory';
-$user = 'root'; // à adapter
-$pass = 'root';     // à adapter
+$user = 'root'; 
+$pass = 'root';     
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -24,7 +23,7 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
-    $stmt = $pdo->prepare('SELECT balance FROM users WHERE id = ?');
+    $stmt = $pdo->prepare('SELECT balance FROM users WHERE id = ? LIMIT 1');
     $stmt->execute([$userId]);
     $userData = $stmt->fetch();
 
@@ -34,5 +33,6 @@ try {
         echo json_encode(['success' => false, 'message' => 'Utilisateur non trouvé']);
     }
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Erreur de base de données : ' . $e->getMessage()]);
+    error_log("Erreur BDD: " . $e->getMessage()); // Journalisation
+    echo json_encode(['success' => false, 'message' => 'Erreur de base de données']);
 }

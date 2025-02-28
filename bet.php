@@ -1,3 +1,21 @@
+<?php
+// Inclure la connexion à la base de données
+require_once 'utils/database.php';
+
+// Récupérer l'instance de connexion
+$db = Database::getInstance();
+$connexion = $db->getConnection();
+
+// Récupérer tous les paris ouverts
+try {
+    $stmt = $connexion->query("SELECT id, title, category, odds1, odds2, team1, team2 FROM bets WHERE status = 'open'");
+    $bets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Erreur lors de la récupération des paris : " . $e->getMessage());
+    $bets = [];  // Tableau vide en cas d'erreur
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,9 +32,24 @@
       <button id="addMoneyButton">Ajouter de l'argent</button>
     </div>
 
-    <!-- Section des paris sportifs (initialement masquée) -->
-    <div id="sportsBets" class="hidden">
-      <!-- Les paris sportifs seront injectés ici par JavaScript -->
+    <!-- Section des paris sportifs -->
+    <div id="sportsBets">
+      <h2>Paris disponibles</h2>
+      <?php if (!empty($bets)): ?>
+        <ul>
+          <?php foreach ($bets as $bet): ?>
+            <li>
+              <h3><?php echo htmlspecialchars($bet['title']); ?></h3>
+              <p>Catégorie: <?php echo htmlspecialchars($bet['category']); ?></p>
+              <p><?php echo htmlspecialchars($bet['team1']); ?> vs <?php echo htmlspecialchars($bet['team2']); ?></p>
+              <p>Cote 1: <?php echo htmlspecialchars($bet['odds1']); ?> | Cote 2: <?php echo htmlspecialchars($bet['odds2']); ?></p>
+              <a href="place_bet.php?id=<?php echo $bet['id']; ?>">Parier</a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php else: ?>
+        <p>Aucun pari disponible actuellement.</p>
+      <?php endif; ?>
     </div>
 
     <!-- Boîte de dialogue pour ajouter de l'argent -->
