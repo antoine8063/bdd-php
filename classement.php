@@ -62,7 +62,13 @@
                 echo json_encode(["success" => false, "error" => $e->getMessage()]);
             }
             ?>
+
+            
         </table>
     </section>
     </div>
+
+    <?php
+        include "partials/footer.php"
+    ?>
 </body>

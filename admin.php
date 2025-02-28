@@ -100,5 +100,9 @@ try {
 
 <script src="/utils/admin.js"></script>
 
+<?php
+        include "partials/footer.php"
+    ?>
+
 </body>
 </html>

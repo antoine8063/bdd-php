@@ -1,26 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-header('Content-Type: application/json');
+// Inclure la connexion à la base de données
+require_once 'utils/database.php';
 
-if (!isset($_GET['id'])) {
-    echo json_encode(['success' => false, 'message' => 'User ID manquant']);
-    exit;
-}
-
-$userId = intval($_GET['id']);
-
-$host = 'localhost';
-$db   = 'betfactory';
-$user = 'root'; // à adapter
-$pass = 'root';     // à adapter
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
+// Récupérer l'instance de connexion
+$db = Database::getInstance();
+$connexion = $db->getConnection();
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);

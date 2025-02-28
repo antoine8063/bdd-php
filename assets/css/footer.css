@@ -1,0 +1,107 @@
+*{
+    margin:0;
+    padding:0;
+  }
+
+
+footer {
+    display: flex;
+    background-color: #222;
+    font-size: 1.75vmin;
+    color: white;
+    flex-wrap: wrap;
+    margin-top: 20%;
+}
+
+.footer-container{
+    display: flex;
+     width: 80%;
+    padding: 8%;
+}
+
+.Information {
+
+    margin-top: 3px; /*solution pensement pour aligner les titres*/
+}
+
+.Information-content strong {
+    color: orange;
+}
+
+.Information-content .icon-sc svg {
+    height: 50px;
+    width: 30px;
+}
+
+.Memory-title {
+    display: flex;
+    flex-direction: column;
+   padding-left: 50%;
+
+}
+
+.Memory-content {
+            padding: 0;
+            margin:0;
+            margin-left: 10px;   /*separation du titre et dla liste sur l'axe horizontale*/
+            margin-top: 10px; /*separation du titre et dla liste sur l'axe vertical*/
+            gap:20px; /*le gap logique */
+            display: flex;
+            flex-direction: column;
+}
+
+.Memory-content li::marker {
+    color: orange; /* Change la couleur */
+
+}
+
+.Copyright {
+    color: rgba(203, 191, 191, 0.474);
+    width:100%;
+    background-color: #46464d;
+    padding: 2%;
+}
+
+@media screen and (max-width: 900px) {
+
+    footer{
+        justify-content: center
+    }
+
+    .footer-container{
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0;
+        width: 0;
+    }
+
+    .Information {
+        text-align: center;
+        padding-right: 0;
+        padding-top: 25px;
+    }
+
+    .Information-content .icon-sc svg {
+        height: 30px;
+        width: 20px;
+    }
+
+    .Memory-title {
+        padding-bottom: 25px;
+        padding-left: 0;
+
+    }
+
+    .Memory-content{
+        text-align: center;
+        margin-top: 10px;
+        margin-left:0;
+        gap: 10px;
+        font-size: 1.75vmin;
+    }
+
+.Copyright{
+    text-align: center;
+}
+}

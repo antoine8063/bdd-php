@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="assets/css/bet.css">
 </head>
 <body>
+
+<?php
+        include "partials/header.php"
+    ?>
+
   <div id="app">
     <!-- En-tête avec le bouton pour ajouter de l'argent et le solde -->
     <div id="header">
@@ -31,5 +36,10 @@
   </div>
 
   <script src="assets/js/bet.js"></script>
+
+  <?php
+        include "partials/footer.php"
+    ?>
+
 </body>
 </html>

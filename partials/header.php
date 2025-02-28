@@ -2,7 +2,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>BETFACTORY</title>
-        <link rel="stylesheet" href="assets/css/header.css">
+        <link rel="stylesheet" href="../assets/css/header.css">
     </head>
 
     <header>
@@ -15,7 +15,7 @@
         <li><a href="classement.php">CLASSEMENT</a></li>
         <li><a href="#">À PROPOS</a></li>
     </ul>
-    <a href="#" class="bet-now">BET NOW</a>
+    <a href="../bet.php" class="bet-now">BET NOW</a>
 
     <!-- Icône du menu hamburger avec la classe 'menu-hamburger' -->
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" alt="menu hamburger" class="menu-hamburger" id="menu-hamburger">

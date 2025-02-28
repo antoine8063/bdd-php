@@ -76,5 +76,9 @@ foreach ($cart_items as $item) {
             </a>
         </form>
     <?php endif; ?>
+
+    <?php
+        include "partials/footer.php"
+    ?>
 </body>
 </html>

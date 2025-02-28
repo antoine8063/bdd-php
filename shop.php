@@ -88,5 +88,6 @@ $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <a href="cart.php">Voir mon panier</a>
         <?php endif; ?>
     </div>
+
 </body>
 </html>

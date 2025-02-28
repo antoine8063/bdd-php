@@ -59,5 +59,9 @@ try {
         <div class="stat">PARIS EFFECTUÉS<br><span class="stat-value"><?php echo $total_bets; ?></span></div>
     </section>
 
+    <?php
+        include "partials/footer.php"
+    ?>
+
 </body>
 </html>
